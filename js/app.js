@@ -36,3 +36,53 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+// const cards = document.querySelectorAll('.card');
+// //console.log(cards);
+
+// for (card of cards){
+//     card.addEventListener('click',() => {
+//     console.log('cards unlimited');
+//     });
+// }
+
+
+const deck = document.querySelector('.deck');
+let cardToggle = [];
+
+function toggleCd(cTarget){
+    cTarget.classList.toggle('open');
+    cTarget.classList.toggle('show');
+}
+
+function addCardToggle(cTarget){
+    cardToggle.push(cTarget);
+    console.log(cardToggle);
+}
+
+function checkMatch(){
+    if (
+        cardToggle[0].firstElementChild.className === 
+        cardToggle[1].firstElementChild.className
+    ){
+        console.log('match');
+    } else {
+        console.log('not a match');
+    }
+}
+
+deck.addEventListener('click', event => {
+    const cTarget = event.target;
+    if (cTarget.classList.contains('card') && cardToggle.length < 2) {
+        toggleCd(cTarget);
+        addCardToggle(cTarget);
+        if (cardToggle.length === 2) {
+         console.log('2 Cards');  
+        }
+    }
+});
+
+
+
+
