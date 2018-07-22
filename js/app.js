@@ -71,10 +71,12 @@ function checkMatch(){
         cardToggled[1].classList.toggle('match');
         cardToggled = [];
     } else {
+        setTimeout(function(){ 
         console.log('not a match');
         toggleCd(cardToggled[0]);
         toggleCd(cardToggled[1]);
         cardToggled = [];
+    }, 3000);
     }
 }
     
