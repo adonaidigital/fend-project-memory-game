@@ -106,3 +106,15 @@ function addMoves(){
     const movesText = document.querySelector('.moves');
     movesText.innerHTML = moves;
 }
+function scoreChecker() {
+    if(moves === 16 || moves === 24){
+        removeStar();
+    }
+}
+function starKeep() {
+    const stars = document.querySelectorAll('.stars li');
+    for (star of stars){
+        star.style.display = 'none';
+    }
+}
+starKeep();
