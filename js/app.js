@@ -43,14 +43,25 @@ const deck = document.querySelector('.deck');
 
 deck.addEventListener('click', function(event){
     const cTarget = event.target;
-    if (cTarget.classList.contains('card') && cardToggled.length < 2) {
+    if (cTarget.classList.contains('card') && 
+            cardToggled.length < 2 && 
+            !cardToggled.includes(cTarget)) {
         toggleCd(cTarget);
         addCardToggle(cTarget);
         if (cardToggled.length === 2) {
-         checkMatch();  
+         checkMatch(cTarget);  
         }
     }
 });
+
+function forValidClick(){
+    return(
+        cTarget.classList.contains('card') && 
+        !cTarget.classList.contains('match') && 
+            cardToggled.length < 2 && 
+            !cardToggled.includes(cTarget)
+    );
+}
 
 function toggleCd(card){
     card.classList.toggle('open');
@@ -76,7 +87,12 @@ function checkMatch(){
         toggleCd(cardToggled[0]);
         toggleCd(cardToggled[1]);
         cardToggled = [];
-    }, 3000);
+    }, 500);
     }
 }
-    
+function shuffleDeck() {
+const cards2Shuffle = document.querySelectorAll('.deck li');
+console.log('cards shuffled ', cards2Shuffle );
+const shuffledCards = shuffle(cards2Shuffle);
+}
+shuffleDeck()    
