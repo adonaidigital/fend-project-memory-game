@@ -46,25 +46,32 @@ function shuffle(array) {
 //     console.log('cards unlimited');
 //     });
 // }
-
-
+let cardToggled = [];
 const deck = document.querySelector('.deck');
-let cardToggle = [];
+
+deck.addEventListener('click', function(e){
+    const cTarget = e.target;
+    if (cTarget.classList.contains('cards')){
+        toggleCd(cTarget);
+        addCardToggle(cTarget);
+    }
+});
 
 function toggleCd(cTarget){
     cTarget.classList.toggle('open');
     cTarget.classList.toggle('show');
 }
 
+
 function addCardToggle(cTarget){
-    cardToggle.push(cTarget);
-    console.log(cardToggle);
+    cardToggled.push(cTarget);
+    console.log(cardToggled);
 }
 
 function checkMatch(){
     if (
-        cardToggle[0].firstElementChild.className === 
-        cardToggle[1].firstElementChild.className
+        cardToggled[0].firstElementChild.className === 
+        cardToggled[1].firstElementChild.className
     ){
         console.log('match');
     } else {
@@ -72,12 +79,12 @@ function checkMatch(){
     }
 }
 
-deck.addEventListener('click', event => {
+deck.addEventListener('click', function(event){
     const cTarget = event.target;
-    if (cTarget.classList.contains('card') && cardToggle.length < 2) {
+    if (cTarget.classList.contains('card') && cardToggled.length < 2) {
         toggleCd(cTarget);
         addCardToggle(cTarget);
-        if (cardToggle.length === 2) {
+        if (cardToggled.length === 2) {
          console.log('2 Cards');  
         }
     }
