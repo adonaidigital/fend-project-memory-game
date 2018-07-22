@@ -40,6 +40,7 @@ function shuffle(array) {
 
 let cardToggled = [];
 const deck = document.querySelector('.deck');
+let moves = 0;
 
 deck.addEventListener('click', function(event){
     const cTarget = event.target;
@@ -49,7 +50,8 @@ deck.addEventListener('click', function(event){
         toggleCd(cTarget);
         addCardToggle(cTarget);
         if (cardToggled.length === 2) {
-         checkMatch(cTarget);  
+         checkMatch(cTarget);
+         addMoves();  
         }
     }
 });
@@ -91,8 +93,16 @@ function checkMatch(){
     }
 }
 function shuffleDeck() {
-const cards2Shuffle = document.querySelectorAll('.deck li');
-console.log('cards shuffled ', cards2Shuffle );
+const cards2Shuffle = Array.from(document.querySelectorAll('.deck li'));
 const shuffledCards = shuffle(cards2Shuffle);
+for (card of shuffledCards){
+    deck.appendChild(card);
+  }
 }
-shuffleDeck()    
+shuffleDeck(); 
+
+function addMoves(){
+    moves++;
+    const movesText = document.querySelector('.moves');
+    movesText.innerHTML = moves;
+}
