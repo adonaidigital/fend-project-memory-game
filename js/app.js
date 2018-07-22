@@ -38,30 +38,24 @@ function shuffle(array) {
  */
 
 
-// const cards = document.querySelectorAll('.card');
-// //console.log(cards);
-
-// for (card of cards){
-//     card.addEventListener('click',() => {
-//     console.log('cards unlimited');
-//     });
-// }
 let cardToggled = [];
 const deck = document.querySelector('.deck');
 
-deck.addEventListener('click', function(e){
-    const cTarget = e.target;
-    if (cTarget.classList.contains('cards')){
+deck.addEventListener('click', function(event){
+    const cTarget = event.target;
+    if (cTarget.classList.contains('card') && cardToggled.length < 2) {
         toggleCd(cTarget);
         addCardToggle(cTarget);
+        if (cardToggled.length === 2) {
+         checkMatch();  
+        }
     }
 });
 
-function toggleCd(cTarget){
-    cTarget.classList.toggle('open');
-    cTarget.classList.toggle('show');
+function toggleCd(card){
+    card.classList.toggle('open');
+    card.classList.toggle('show');
 }
-
 
 function addCardToggle(cTarget){
     cardToggled.push(cTarget);
@@ -73,23 +67,14 @@ function checkMatch(){
         cardToggled[0].firstElementChild.className === 
         cardToggled[1].firstElementChild.className
     ){
-        console.log('match');
+        cardToggled[0].classList.toggle('match');
+        cardToggled[1].classList.toggle('match');
+        cardToggled = [];
     } else {
         console.log('not a match');
+        toggleCd(cardToggled[0]);
+        toggleCd(cardToggled[1]);
+        cardToggled = [];
     }
 }
-
-deck.addEventListener('click', function(event){
-    const cTarget = event.target;
-    if (cTarget.classList.contains('card') && cardToggled.length < 2) {
-        toggleCd(cTarget);
-        addCardToggle(cTarget);
-        if (cardToggled.length === 2) {
-         console.log('2 Cards');  
-        }
-    }
-});
-
-
-
-
+    
