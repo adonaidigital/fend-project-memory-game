@@ -130,14 +130,14 @@ function keepStar() {
         }
     }
 }
-keepStar();
-keepStar();
+//keepStar();
+
 
 function timer(){
         clockId = setInterval(function(){
         time++;
         timeDisplay();
-        console.log('time');
+        //console.log('time');
     },1000);
 }
 timer();
@@ -156,6 +156,16 @@ function timeDisplay(){
     }else{
     clock.innerHTML = `${minutes}:${seconds}`
     }
-    // console.log(clock);
-    // clock.innerHTML = time;
+}
+function toggleStat(){
+    const stat = document.querySelector('.stat_background');
+    stat.classList.toggle('hide');
+}
+toggleStat();
+toggleStat();
+
+function statsData(){
+    const timeStat = document.querySelector('.statsTime');
+    const timeNow = document.querySelector('.clock').innerHTML;
+    timeStat.innerHTML = `Time = ${timeNow}`;
 }
