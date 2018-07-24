@@ -40,10 +40,14 @@ function shuffle(array) {
 
 let cardToggled = [];
 const deck = document.querySelector('.deck');
-let moves = 0;
+let moves = 15;
+scoreChecker();
 let timerOff = true;
-let time = 0;
+let time = 120;
+timeDisplay();
 let clockId;
+statsData();
+toggleStat();
 
 deck.addEventListener('click', function(event){
     const cTarget = event.target;
@@ -162,10 +166,62 @@ function toggleStat(){
     stat.classList.toggle('hide');
 }
 toggleStat();
-toggleStat();
+// toggleStat();
 
 function statsData(){
     const timeStat = document.querySelector('.statsTime');
     const timeNow = document.querySelector('.clock').innerHTML;
+    const movesStat = document.querySelector('.statMoves');
+    const starsStat = document.querySelector('.statStars');
+    const stars = addStar();
     timeStat.innerHTML = `Time = ${timeNow}`;
+    movesStat.innerHTML =`Moves = ${moves}`;
+    starsStat.innerHTML = `Stars= ${stars}`;
+}
+
+function addStar() {
+    const stars = document.querySelectorAll('.stars li');
+    countStar = 0;
+    for (star of stars){
+        if (star.style.display !== 'none'){
+            countStar++;  
+        }
+    }
+console.log(countStar);
+return countStar;
+}
+let stopGame = document.querySelector('.stopGame');
+stopGame.addEventListener('click', function(){
+    toggleStat();
+});
+
+let startGame = document.querySelector('.startGame');
+startGame.addEventListener('click', function(){
+   console.log('replay');
+});
+
+function gameReset(){
+    clockAndTimeReset();
+    movesReset();
+    starsReset();
+    shuffleDeck();
+    }
+
+function clockAndTimeReset(){
+            stopTimer();
+            timerOff = true;
+            time = 0;
+            timeDisplay(); 
+}
+function movesReset() {
+    moves = 0;
+    document.querySelector('.moves').innerHTML = moves;
+}
+
+function starsReset(){
+    stars = 0;
+    const stars = document.querySelectorAll('.stars li');
+    for (star of stars){
+        star.style.display = 'inline';
+    }
 }
