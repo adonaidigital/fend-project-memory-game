@@ -40,14 +40,16 @@ function shuffle(array) {
 
 let cardToggled = [];
 const deck = document.querySelector('.deck');
-let moves = 15;
+let moves = 0;
 scoreChecker();
 let timerOff = true;
-let time = 120;
+let time = 0;
 timeDisplay();
 let clockId;
 statsData();
 toggleStat();
+let cardsMatched = 0; 
+
 
 deck.addEventListener('click', function(event){
     const cTarget = event.target;
@@ -97,6 +99,7 @@ function checkMatch(){
         cardToggled[0].classList.toggle('match');
         cardToggled[1].classList.toggle('match');
         cardToggled = [];
+        cardsMatched++;
     } else {
         setTimeout(function(){ 
         console.log('not a match');
@@ -166,7 +169,7 @@ function toggleStat(){
     stat.classList.toggle('hide');
 }
 toggleStat();
-// toggleStat();
+toggleStat();
 
 function statsData(){
     const timeStat = document.querySelector('.statsTime');
@@ -199,6 +202,9 @@ let startGame = document.querySelector('.startGame');
 startGame.addEventListener('click', function(){
    console.log('replay');
 });
+let restart = document.querySelector('.restart');
+// restart.addEventListener('click', gameReset);
+// startGame.addEventListener('click', gameReset) it should be  inserted into *202
 
 function gameReset(){
     clockAndTimeReset();
@@ -206,6 +212,14 @@ function gameReset(){
     starsReset();
     shuffleDeck();
     }
+    
+function cardsReset(){
+    const cards = document.querySelectorAll('.deck li');
+    for (let card of cards){
+    card.className = 'card'; 
+    }
+
+}    
 
 function clockAndTimeReset(){
             stopTimer();
@@ -219,9 +233,18 @@ function movesReset() {
 }
 
 function starsReset(){
-    stars = 0;
-    const stars = document.querySelectorAll('.stars li');
-    for (star of stars){
+    winStars = 0;
+    const winStars = document.querySelectorAll('.stars li');
+    for (star of winStars){
         star.style.display = 'inline';
     }
+}
+const totalPairs = 8;
+if (cardsMatched === totalPairs){
+    gameOver();
+}
+function gameOver(){
+    stopTimer();
+    statsData();
+    toggleStat();
 }
