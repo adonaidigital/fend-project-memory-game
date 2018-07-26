@@ -49,7 +49,18 @@ let clockId;
 statsData();
 toggleStat();
 let cardsMatched = 0; 
+const totalPairs = 8;
+//const clock = document.querySelector('.clock');
 
+deck.addEventListener('click', function(event){
+const cTarget = event.target;
+if (forValidClick(cTarget)){
+    if(timerOff){
+        timerOn();
+        timerOff = false;
+    }
+  }
+});
 
 deck.addEventListener('click', function(event){
     const cTarget = event.target;
@@ -64,12 +75,6 @@ deck.addEventListener('click', function(event){
          scoreChecker();
         }
     }
-    if (forValidClick(cTarget)){
-        if(timerOff){
-         timer();
-         timerOff = false;
-        }
-      }
 });
 
 function forValidClick(cTarget){
@@ -100,13 +105,16 @@ function checkMatch(){
         cardToggled[1].classList.toggle('match');
         cardToggled = [];
         cardsMatched++;
+        if (cardsMatched === totalPairs){
+            gameOver();
+        }
     } else {
         setTimeout(function(){ 
-        console.log('not a match');
+        //console.log('not a match');
         toggleCd(cardToggled[0]);
         toggleCd(cardToggled[1]);
         cardToggled = [];
-    }, 500);
+    }, 800);
     }
 }
 function shuffleDeck() {
@@ -120,8 +128,8 @@ shuffleDeck();
 
 function addMoves(){
     moves++;
-    const movesText = document.querySelector('.moves');
-    movesText.innerHTML = moves;
+    const movesMade = document.querySelector('.moves');
+    movesMade.innerHTML = moves;
 }
 function scoreChecker() {
     if(moves === 16 || moves === 24){
@@ -138,22 +146,17 @@ function keepStar() {
     }
 }
 //keepStar();
-
-
-function timer(){
+function timerOn(){
         clockId = setInterval(function(){
         time++;
         timeDisplay();
-        //console.log('time');
     },1000);
 }
-timer();
-
+//timerOn();
 function stopTimer(){
     clearInterval(clockId);
 }
 //stopTimer();
-
 function timeDisplay(){
     const clock = document.querySelector('.clock');
     const minutes = Math.floor(time / 60);
@@ -164,12 +167,13 @@ function timeDisplay(){
     clock.innerHTML = `${minutes}:${seconds}`
     }
 }
+// so this is the Modal function.
 function toggleStat(){
     const stat = document.querySelector('.stat_background');
     stat.classList.toggle('hide');
 }
-toggleStat();
-toggleStat();
+//toggleStat();
+//toggleStat();
 
 function statsData(){
     const timeStat = document.querySelector('.statsTime');
@@ -190,35 +194,34 @@ function addStar() {
             countStar++;  
         }
     }
-console.log(countStar);
 return countStar;
 }
 let stopGame = document.querySelector('.stopGame');
 stopGame.addEventListener('click', function(){
     toggleStat();
 });
-
+// This is to replay the game
 let startGame = document.querySelector('.startGame');
-startGame.addEventListener('click', function(){
-   console.log('replay');
-});
+startGame.addEventListener('click', replayGame);
+ 
+//This is to reset the game to its default state.
 let restart = document.querySelector('.restart');
-// restart.addEventListener('click', gameReset);
-// startGame.addEventListener('click', gameReset) it should be  inserted into *202
+restart.addEventListener('click', gameReset);
 
 function gameReset(){
     clockAndTimeReset();
     movesReset();
     starsReset();
     shuffleDeck();
+    cardsReset();
     }
     
 function cardsReset(){
     const cards = document.querySelectorAll('.deck li');
     for (let card of cards){
     card.className = 'card'; 
+    card.classList.remove('open', 'show', 'match');
     }
-
 }    
 
 function clockAndTimeReset(){
@@ -227,24 +230,28 @@ function clockAndTimeReset(){
             time = 0;
             timeDisplay(); 
 }
+
 function movesReset() {
     moves = 0;
     document.querySelector('.moves').innerHTML = moves;
 }
 
 function starsReset(){
-    winStars = 0;
+    stars = 0;
     const winStars = document.querySelectorAll('.stars li');
     for (star of winStars){
         star.style.display = 'inline';
     }
 }
-const totalPairs = 8;
-if (cardsMatched === totalPairs){
-    gameOver();
-}
+
 function gameOver(){
     stopTimer();
     statsData();
+    toggleStat();
+    cardsReset();
+
+}
+function replayGame(){
+    gameReset();
     toggleStat();
 }
