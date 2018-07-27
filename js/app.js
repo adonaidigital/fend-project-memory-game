@@ -208,6 +208,11 @@ startGame.addEventListener('click', replayGame);
 let restart = document.querySelector('.restart');
 restart.addEventListener('click', gameReset);
 
+function exit(){
+   let ext = document.querySelector('stat_close');
+ext.addEventListener('click', toggleStat);
+}
+
 function gameReset(){
     clockAndTimeReset();
     movesReset();
@@ -255,3 +260,5 @@ function replayGame(){
     gameReset();
     toggleStat();
 }
+
+  // Referenced Matthew Cranford Udacity Memory Game Walkthrough Part 1-8, live webinar walkthrough with Ryan Waite & Mike Wales, https://developer.mozilla.org 

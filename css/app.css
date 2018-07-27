@@ -118,11 +118,11 @@ h1 {
 
 .stat_body{
     position: relative;
-    top: 500px;
-    left: 500px;
+    top: 400px;
+    left: 400px;
     /* height: 50%; */
     width: 50%;
-    background: rgb(202, 149, 149);
+    background: rgb(177, 158, 158);
     transform: translate(-30%, -100%);
 }
 .stat_header{
@@ -136,6 +136,10 @@ h1 {
     font-weight: bold;
     font-size: 2rem;
 }
+.stat_close:hover {
+    color:gray;
+    cursor: pointer;
+  }
 .stat_data{
 display: flex;
 flex-direction: column;
