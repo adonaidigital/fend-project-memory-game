@@ -1,15 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -25,19 +13,6 @@ function shuffle(array) {
     return array;
 }
 
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-
 let cardToggled = [];
 const deck = document.querySelector('.deck');
 let moves = 0;
@@ -50,7 +25,6 @@ statsData();
 toggleStat();
 let cardsMatched = 0; 
 const totalPairs = 8;
-//const clock = document.querySelector('.clock');
 
 deck.addEventListener('click', function(event){
 const cTarget = event.target;
@@ -93,7 +67,6 @@ function toggleCd(card){
 
 function addCardToggle(cTarget){
     cardToggled.push(cTarget);
-    console.log(cardToggled);
 }
 
 function checkMatch(){
@@ -109,14 +82,14 @@ function checkMatch(){
             gameOver();
         }
     } else {
-        setTimeout(function(){ 
-        //console.log('not a match');
+        setTimeout(function(){  //console.log('not a match');
         toggleCd(cardToggled[0]);
         toggleCd(cardToggled[1]);
         cardToggled = [];
     }, 800);
     }
 }
+
 function shuffleDeck() {
 const cards2Shuffle = Array.from(document.querySelectorAll('.deck li'));
 const shuffledCards = shuffle(cards2Shuffle);
@@ -131,11 +104,13 @@ function addMoves(){
     const movesMade = document.querySelector('.moves');
     movesMade.innerHTML = moves;
 }
+
 function scoreChecker() {
     if(moves === 16 || moves === 24){
         keepStar();
     }
 }
+
 function keepStar() {
     const stars = document.querySelectorAll('.stars li');
     for (star of stars){
@@ -145,18 +120,18 @@ function keepStar() {
         }
     }
 }
-//keepStar();
+
 function timerOn(){
         clockId = setInterval(function(){
         time++;
         timeDisplay();
     },1000);
 }
-//timerOn();
+
 function stopTimer(){
     clearInterval(clockId);
 }
-//stopTimer();
+
 function timeDisplay(){
     const clock = document.querySelector('.clock');
     const minutes = Math.floor(time / 60);
@@ -167,23 +142,21 @@ function timeDisplay(){
     clock.innerHTML = `${minutes}:${seconds}`
     }
 }
-// so this is the Modal function.
-function toggleStat(){
+
+function toggleStat(){ // so this is the Modal function.
     const stat = document.querySelector('.stat_background');
     stat.classList.toggle('hide');
-}
-//toggleStat();
-//toggleStat();
+}//toggleStat();
 
-function statsData(){
+function statsData(){ // here are content of the modal 
     const timeStat = document.querySelector('.statsTime');
     const timeNow = document.querySelector('.clock').innerHTML;
     const movesStat = document.querySelector('.statMoves');
     const starsStat = document.querySelector('.statStars');
     const stars = addStar();
-    timeStat.innerHTML = `Time = ${timeNow}`;
+    timeStat.innerHTML =`Time = ${timeNow}`;
     movesStat.innerHTML =`Moves = ${moves}`;
-    starsStat.innerHTML = `Stars= ${stars}`;
+    starsStat.innerHTML =`Stars = ${stars}`;
 }
 
 function addStar() {
@@ -196,9 +169,10 @@ function addStar() {
     }
 return countStar;
 }
+
 let stopGame = document.querySelector('.stopGame');
 stopGame.addEventListener('click', function(){
-    toggleStat();
+toggleStat();
 });
 // This is to replay the game
 let startGame = document.querySelector('.startGame');
@@ -209,7 +183,7 @@ let restart = document.querySelector('.restart');
 restart.addEventListener('click', gameReset);
 
 function exit(){
-   let ext = document.querySelector('stat_close');
+   let ext = document.querySelector('.stat_close');
 ext.addEventListener('click', toggleStat);
 }
 
@@ -254,8 +228,8 @@ function gameOver(){
     statsData();
     toggleStat();
     cardsReset();
-
 }
+
 function replayGame(){
     gameReset();
     toggleStat();
