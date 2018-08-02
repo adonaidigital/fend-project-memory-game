@@ -34,7 +34,7 @@ let shuffleDeck = () =>{
     shuffleDeck();
 /*
 This function starts the timer 
-as soon as there is a valid click. 
+as soon as you click on any card. 
 */
 deck.addEventListener('click', event => {
 const cTarget = event.target;
@@ -164,8 +164,7 @@ timeDisplay =() =>{
 toggleStat =() =>{ 
     const stat = document.querySelector('.stat_background');
     stat.classList.toggle('hide');
-} 
-//toggleStat();
+} //toggleStat();
 
 // here is the modal function
 statsData =() =>{  
