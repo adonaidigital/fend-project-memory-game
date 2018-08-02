@@ -23,7 +23,7 @@ const shuffle = array =>{
     return array;
 }
 
-// This function shuffles the deck each time browser is refreshed, the replay or restart button is clicked
+// This function shuffles the deck any time replay or restart button is clicked
 let shuffleDeck = () =>{
     const cards2Shuffle = Array.from(document.querySelectorAll('.deck li'));
     const shuffledCards = shuffle(cards2Shuffle);
@@ -109,21 +109,21 @@ let checkMatch = () => {
             cardToggled = [];
         }, 800);
     }
-   scoreChecker(); 
 } 
-
-// This function handle the moves increment and displays on the scoreboard
+// This function handle the moves increment on the scoreboard
 const addMoves = () =>{
+    if (cardToggled.length === 2){
     moves++;
     let movesMade = document.querySelector('.moves');
     movesMade.innerHTML = moves;
+    }
 }
 // This function compares the moves made with the number of stars to retain
-scoreChecker = () =>{
-    if (moves === 16 || moves === 24){
+scoreChecker = () => {
+    if (moves === 18 || moves === 28){
         keepStar();
     }
-};
+}
 //This function hides the stars 
 let keepStar =() =>{
     const stars = document.querySelectorAll('.stars li');
@@ -176,8 +176,7 @@ statsData =() =>{
     let movesMade = document.querySelector('.statMoves');
     timeStat.innerHTML = `Time = ${timeNow}`;
     starsStat.innerHTML = `Stars = ${stars}`;
-    movesMade.innerHTML = `Moves = ${moves}`;
-    
+    movesMade.innerHTML = `Moves = ${moves}`; 
 }
 
 // The function counts each stars that doesn’t have a display property of none
@@ -191,7 +190,6 @@ const addStar =() =>{
     }
 return countStar;
 }
-
 //This is to reset the game to its default state.
 const gameReset =() =>{
     clockAndTimeReset();
@@ -212,7 +210,6 @@ const cardsReset =() =>{
     cardsMatched = [];
     cardToggled = [];
 }    
-
 //This function resets both the timer and clock
 const clockAndTimeReset =() =>{
     stopTimer();
@@ -220,25 +217,20 @@ const clockAndTimeReset =() =>{
     time = 0;
     timeDisplay(); 
 }
-
 //This function resets the moves
 const movesReset =() =>{
     moves = 0;
     let movesMade = document.querySelector('.moves');
     movesMade.innerHTML = moves;
 }
-
 //This function resets the stars
 const starsReset =() =>{
     stars = 0;
     const winStars = document.querySelectorAll('.stars li');
     for (star of winStars){
-        if (star.style.display === 'none') {
-        star.style.display = 'inline-block';
+        star.style.display = 'inline';
         }
     }
-}
-
 //This function is triggered when all cards are matched. 
 let gameOver =() =>{
     stopTimer();
@@ -249,8 +241,7 @@ let gameOver =() =>{
 const replayGame =() =>{
     gameReset();
     toggleStat();
- 
-};
+}
 let replay = document.querySelector('.replay');
     replay.addEventListener('click',replayGame);
 /*
