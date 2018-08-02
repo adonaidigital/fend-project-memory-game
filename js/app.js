@@ -1,16 +1,12 @@
 // Global variables 
 let cardToggled = [];
-let deck = document.querySelector('.deck');
+const deck = document.querySelector('.deck');
 let moves = 0;
 let timerOff = true;
 let time = 0;
+let clockId;
 let cardsMatched = 0; 
 const totalPairs = 8;
-let scoreChecker;
-let timeDisplay;
-let clockId;
-let statsData;
-let toggleStat;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 const shuffle = array =>{
@@ -26,6 +22,16 @@ const shuffle = array =>{
 
     return array;
 }
+
+// This function shuffles the deck each time browser is refreshed, the replay or restart button is clicked
+let shuffleDeck = () =>{
+    const cards2Shuffle = Array.from(document.querySelectorAll('.deck li'));
+    const shuffledCards = shuffle(cards2Shuffle);
+    for (card of shuffledCards){
+        deck.appendChild(card);
+      }
+    }
+    shuffleDeck();
 /*
 This function starts the timer 
 as soon as there is a valid click. 
@@ -71,7 +77,7 @@ const forValidClick = cTarget =>{
     );
 }
 
-// This function toggles off unmatched cards while playing the game 
+// This function flips the cards while playing the game 
 let toggleCd = card =>{
     card.classList.toggle('open');
     card.classList.toggle('show');
@@ -80,57 +86,44 @@ let toggleCd = card =>{
 //here is the function that pushes clicked card into cardToggled array
 const addCardToggle = cTarget => {
     cardToggled.push(cTarget);
-    console.log(cardToggled);
+    //console.log(cardToggled);
 }
 
 //This function compares matched cards and stores them until all cards are matched.
 let checkMatch = () => {
-    if (
-        cardToggled[0].firstElementChild.className === 
-        cardToggled[1].firstElementChild.className
-    ){
+    if (cardToggled[0].firstElementChild.className === 
+        cardToggled[1].firstElementChild.className)
+    {
         cardToggled[0].classList.toggle('match');
         cardToggled[1].classList.toggle('match');
         cardToggled = [];
         cardsMatched++;
         if (cardsMatched === totalPairs){
             cardsReset();
-            gameOver();
-            
+            gameOver(); 
         }
-    } else {
-        setTimeout(() =>{  
-        toggleCd(cardToggled[0]);
-        toggleCd(cardToggled[1]);
-        cardToggled = [];
-    }, 800);
+        } else {
+            setTimeout(() =>{  
+            toggleCd(cardToggled[0]);
+            toggleCd(cardToggled[1]);
+            cardToggled = [];
+        }, 800);
     }
-}
-
-// This function shuffles the deck each time browser is refreshed, the replay or restart button is clicked
-let shuffleDeck = () =>{
-const cards2Shuffle = Array.from(document.querySelectorAll('.deck li'));
-const shuffledCards = shuffle(cards2Shuffle);
-for (card of shuffledCards){
-    deck.appendChild(card);
-  }
-}
-shuffleDeck(); 
+   scoreChecker(); 
+} 
 
 // This function handle the moves increment and displays on the scoreboard
 const addMoves = () =>{
     moves++;
-    const movesMade = document.querySelector('.moves');
+    let movesMade = document.querySelector('.moves');
     movesMade.innerHTML = moves;
 }
-
 // This function compares the moves made with the number of stars to retain
 scoreChecker = () =>{
-    if(moves === 16 || moves === 24){
+    if (moves === 16 || moves === 24){
         keepStar();
     }
-}
-
+};
 //This function hides the stars 
 let keepStar =() =>{
     const stars = document.querySelectorAll('.stars li');
@@ -142,7 +135,7 @@ let keepStar =() =>{
     }
 }
 
-//This function starts the timer
+//This function starts the timer for the game
 const timerOn =() =>{
         clockId = setInterval(() =>{
         time++;
@@ -178,12 +171,13 @@ toggleStat =() =>{
 statsData =() =>{  
     const timeStat = document.querySelector('.statsTime');
     const timeNow = document.querySelector('.clock').innerHTML;
-    const movesStat = document.querySelector('.statMoves');
     const starsStat = document.querySelector('.statStars');
     const stars = addStar();
-    timeStat.innerHTML =`Time = ${timeNow}`;
-    movesStat.innerHTML =`Moves = ${moves}`;
-    starsStat.innerHTML =`Stars = ${stars}`;
+    let movesMade = document.querySelector('.statMoves');
+    timeStat.innerHTML = `Time = ${timeNow}`;
+    starsStat.innerHTML = `Stars = ${stars}`;
+    movesMade.innerHTML = `Moves = ${moves}`;
+    
 }
 
 // The function counts each stars that doesn’t have a display property of none
@@ -215,6 +209,8 @@ const cardsReset =() =>{
     for (let card of cards){
     card.className = 'card'; 
     }
+    cardsMatched = [];
+    cardToggled = [];
 }    
 
 //This function resets both the timer and clock
@@ -228,7 +224,8 @@ const clockAndTimeReset =() =>{
 //This function resets the moves
 const movesReset =() =>{
     moves = 0;
-    document.querySelector('.moves').innerHTML = moves;
+    let movesMade = document.querySelector('.moves');
+    movesMade.innerHTML = moves;
 }
 
 //This function resets the stars
@@ -236,7 +233,9 @@ const starsReset =() =>{
     stars = 0;
     const winStars = document.querySelectorAll('.stars li');
     for (star of winStars){
-        star.style.display = 'inline';
+        if (star.style.display === 'none') {
+        star.style.display = 'inline-block';
+        }
     }
 }
 
@@ -250,9 +249,9 @@ let gameOver =() =>{
 const replayGame =() =>{
     gameReset();
     toggleStat();
-    cardToggled = []; 
+ 
 };
-let replay = document.querySelector('.playAgain');
+let replay = document.querySelector('.replay');
     replay.addEventListener('click',replayGame);
 /*
 Referenced Matthew Cranford Udacity Memory Game Walkthrough Part 1-8, 
